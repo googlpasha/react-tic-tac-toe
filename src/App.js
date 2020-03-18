@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 
 
@@ -18,8 +24,16 @@ class Board extends Component {
       </Squere>
   }
 
+  // renderRows(){
+  //   for (let i = 0; i <= 3; i++) {
+  //       {this.renderSquare(i)}
+  //   }
+  //   return result
+  // }
+
   render(){
 
+    // return this.renderRows()
     return(
       <div>
       <div className="board-row">
@@ -129,18 +143,52 @@ class Game extends Component {
     })
 
     return(
-      <div className={this.state.gameClass}>
-      <div className="game-board">
-      <div>
-        <button onClick={()=>this.changeColor('green')}>Green</button>
-        <button onClick={()=>this.changeColor('white')}>White</button>
+    <div>
+      <Router>
+      <div className="navbar">
+        <ul className="nav-list">
+          <li className="nav-item">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/tasks">Tasks</Link>
+          </li>
+        </ul>
       </div>
-        <Board customClass={this.state.gameClass} squares={current.squares} onClick={(i)=>{this.handleClick(i)}} />
-      </div>
-      <div className="game-info">
-        <div>{status}</div>
-        <ol>{moves}</ol>
-      </div>
+        <Switch>
+            <Route path="/tasks">
+              <p>
+                <div>1)Пофиксить выбор цветов</div>
+                <div>2)Убрать хардкод из создания доски</div>
+                <div>3)Добавить больше цветов на выбор</div>
+                <div>4)Сделать фозможность задавать свои цвета</div>
+                <div>5)Сделать меню настроек</div>
+                <div>6)Сделать стартовое меню</div>
+                <div>7)Улучшить историю ходов</div>
+                <div>8)Сделать фозможность выбора размера доски</div>
+                <div>9)Сделать "бота" для игры</div>
+                <div>10)Добавить нормальные стили</div>
+              </p>
+            </Route>
+
+            <Route path="/">
+            <div className={this.state.gameClass}>
+              <div className="game-board">
+              <div>
+                <button onClick={()=>this.changeColor('green')}>Green</button>
+                <button onClick={()=>this.changeColor('white')}>White</button>
+              </div>
+                <Board customClass={this.state.gameClass} squares={current.squares} onClick={(i)=>{this.handleClick(i)}} />
+              </div>
+              <div className="game-info">
+                <div>{status}</div>
+                <ol>{moves}</ol>
+              </div>
+            </div>
+            </Route>
+            
+        </Switch>
+        </Router>
     </div>
     )
   }
