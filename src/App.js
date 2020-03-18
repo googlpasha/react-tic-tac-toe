@@ -4,13 +4,18 @@ import './App.css';
 
 
 function Squere(props) {
-    return (<button className="square" onClick={() => props.onClick()}>{props.value}</button>)
+    return (<button className={'square ' + props.customClass} onClick={() => props.onClick()}>{props.value}</button>)
 }
 
 
 class Board extends Component {
   renderSquare(i){
-    return <Squere value={this.props.squares[i]} onClick={() => this.props.onClick(i)}></Squere>
+    return <Squere 
+      customClass={this.props.customClass}
+      value={this.props.squares[i]}
+      onClick={() => this.props.onClick(i)}
+      >
+      </Squere>
   }
 
   render(){
@@ -46,7 +51,8 @@ class Game extends Component {
         squares : Array(9).fill(null)
       }],
       xIsNext: true,
-      stepNumber:0
+      stepNumber:0,
+      gameClass : 'white'
     }
   }
 
@@ -95,11 +101,18 @@ class Game extends Component {
     })
   }
 
+  changeColor(color){
+    this.setState(
+      {gameClass : color}
+    )
+    console.log("Color changed!")
+  }
+
   render(){
     const history = this.state.history
     const current = history[this.state.stepNumber]
     const winner = this.calculateWinner(current.squares);
-     var status;
+    let status;
     if (winner) {
       status = 'Winner: ' + winner;
     } else {
@@ -116,9 +129,13 @@ class Game extends Component {
     })
 
     return(
-      <div className="game">
+      <div className={this.state.gameClass}>
       <div className="game-board">
-        <Board squares={current.squares} onClick={(i)=>{this.handleClick(i)}} />
+      <div>
+        <button onClick={()=>this.changeColor('green')}>Green</button>
+        <button onClick={()=>this.changeColor('white')}>White</button>
+      </div>
+        <Board customClass={this.state.gameClass} squares={current.squares} onClick={(i)=>{this.handleClick(i)}} />
       </div>
       <div className="game-info">
         <div>{status}</div>
