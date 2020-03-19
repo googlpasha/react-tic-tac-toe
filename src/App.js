@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -137,7 +138,7 @@ class Game extends Component {
       const desc = move ? 'Go to move #' + move : 'Go to game start'
       return (
         <li key={move}>
-          <button onClick={()=>this.jumpTo(move)}>{desc}</button>
+          <button className="btn btn-dark" onClick={()=>this.jumpTo(move)}>{desc}</button>
         </li>
       )
     })
@@ -153,12 +154,16 @@ class Game extends Component {
           <li className="nav-item">
             <Link to="/tasks">Tasks</Link>
           </li>
+          <li className="nav-item">
+            <Link to="/chests">Chests</Link>
+          </li>
         </ul>
       </div>
         <Switch>
             <Route path="/tasks">
+            <div className="container">
               <p>
-                <div>1)Пофиксить выбор цветов</div>
+                <div>1)<s>Пофиксить выбор цветов</s></div>
                 <div>2)Убрать хардкод из создания доски</div>
                 <div>3)Добавить больше цветов на выбор</div>
                 <div>4)Сделать фозможность задавать свои цвета</div>
@@ -169,20 +174,34 @@ class Game extends Component {
                 <div>9)Сделать "бота" для игры</div>
                 <div>10)Добавить нормальные стили</div>
               </p>
+            </div>
+            </Route>
+
+            <Route path="/chests">
+
             </Route>
 
             <Route path="/">
             <div className={this.state.gameClass}>
-              <div className="game-board">
-              <div>
-                <button onClick={()=>this.changeColor('green')}>Green</button>
-                <button onClick={()=>this.changeColor('white')}>White</button>
+              <div className="game-board container">
+              <div className="row">
+              <div className="col-lg-4"></div>
+              <div className="col-lg-4"><div>{status}</div></div>
+              <div className="col-lg-4">
+                <button className="btn btn-success" onClick={()=>this.changeColor('green')}>Green</button>
+                <button className="btn btn-light" onClick={()=>this.changeColor('white')}>White</button>
               </div>
-                <Board customClass={this.state.gameClass} squares={current.squares} onClick={(i)=>{this.handleClick(i)}} />
               </div>
-              <div className="game-info">
-                <div>{status}</div>
-                <ol>{moves}</ol>
+              <div className="row">
+                <div className="col-lg-4">
+                  <div className="game-info">
+                    <ol>{moves}</ol>
+                  </div>
+                </div>
+                <div className="col-lg-4"><Board customClass={this.state.gameClass} squares={current.squares} onClick={(i)=>{this.handleClick(i)}} /></div>
+                <div className="col-lg-4"></div>
+              </div>
+                
               </div>
             </div>
             </Route>
